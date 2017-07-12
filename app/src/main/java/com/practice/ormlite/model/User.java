@@ -1,6 +1,8 @@
 package com.practice.ormlite.model;
 
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
@@ -46,6 +48,10 @@ public class User {
 
     @Override
     public String toString() {
-        return "[id=" + id + ",name=" + name + ",desc=" + desc + "]";
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", desc='" + desc + '\'' +
+                '}';
     }
 }

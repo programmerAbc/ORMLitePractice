@@ -2,15 +2,18 @@ package com.practice.ormlite;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
+import com.practice.ormlite.model.Article;
+import com.practice.ormlite.model.UploadAlbumEntity;
+import com.practice.ormlite.model.UploadVideoEntity;
 import com.practice.ormlite.model.User;
 
-import java.sql.SQLException;
+import java.io.File;
 
 /**
  * Created by user1 on 2017/6/14.
@@ -18,17 +21,20 @@ import java.sql.SQLException;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public static final String TAG = DatabaseHelper.class.getSimpleName();
-    private static final String DB_NAME = "sqlite-test.db";
-    private Dao<User, Integer> userDao;
+    private static final String DB_NAME = "ORMLitePractice.db";
 
     public DatabaseHelper(Context context) {
-        super(context, DB_NAME, null, 2);
+        super(context, Environment.getExternalStorageDirectory() + File.separator + DB_NAME, null, 2);
     }
 
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, User.class);
+            TableUtils.createTableIfNotExists(connectionSource, User.class);
+            TableUtils.createTableIfNotExists(connectionSource, Article.class);
+            TableUtils.createTableIfNotExists(connectionSource, UploadAlbumEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, UploadVideoEntity.class);
+
         } catch (Exception e) {
             Log.e(TAG, "onCreate: " + Log.getStackTraceString(e));
         }
@@ -38,6 +44,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
             TableUtils.dropTable(connectionSource, User.class, true);
+            TableUtils.dropTable(connectionSource, Article.class, true);
+            TableUtils.dropTable(connectionSource, UploadAlbumEntity.class, true);
+            TableUtils.dropTable(connectionSource, UploadVideoEntity.class, true);
             onCreate(database, connectionSource);
         } catch (Exception e) {
             Log.e(TAG, "onUpgrade: " + Log.getStackTraceString(e));
@@ -51,18 +60,5 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             instance = new DatabaseHelper(context);
         }
         return instance;
-    }
-
-    public Dao<User, Integer> getUserDao() throws SQLException {
-        if (userDao == null) {
-            userDao = getDao(User.class);
-        }
-        return userDao;
-    }
-
-    @Override
-    public void close() {
-        super.close();
-        userDao = null;
     }
 }
