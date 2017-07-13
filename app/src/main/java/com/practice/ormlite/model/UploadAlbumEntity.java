@@ -43,6 +43,9 @@ public class UploadAlbumEntity {
     //发布日期
     @DatabaseField
     private long releaseDate = 0;
+    //当发生错误时,记录错误信息
+    @DatabaseField
+    private String errorMsg = "";
 
     public UploadAlbumEntity() {
     }
@@ -139,6 +142,14 @@ public class UploadAlbumEntity {
         this.uploadStatus = uploadStatus;
     }
 
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
     @Override
     public String toString() {
         return "UploadAlbumEntity{" +
@@ -154,6 +165,7 @@ public class UploadAlbumEntity {
                 ", lat=" + lat +
                 ", lng=" + lng +
                 ", releaseDate=" + releaseDate +
+                ", errorMsg='" + errorMsg + '\'' +
                 '}';
     }
 }

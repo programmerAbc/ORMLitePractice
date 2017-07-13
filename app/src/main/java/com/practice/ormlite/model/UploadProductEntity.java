@@ -233,6 +233,14 @@ public class UploadProductEntity {
         this.uploadToken = uploadToken;
     }
 
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
+    }
+
     @Override
     public String toString() {
         return "UploadProductEntity{" +
@@ -255,6 +263,7 @@ public class UploadProductEntity {
                 ", videoTime=" + videoTime +
                 ", releaseData=" + releaseData +
                 ", uploadToken='" + uploadToken + '\'' +
+                ", errorMsg='" + errorMsg + '\'' +
                 ", uploadAlbumEntity=" + uploadAlbumEntity +
                 '}';
     }
