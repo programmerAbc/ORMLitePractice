@@ -8,12 +8,12 @@ import android.util.Log;
 import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.table.TableUtils;
 import com.practice.ormlite.dao.ArticleDao;
-import com.practice.ormlite.dao.UploadAlbumEntityDao;
-import com.practice.ormlite.dao.UploadProductEntityDao;
+import com.practice.ormlite.dao.UploadSetDao;
+import com.practice.ormlite.dao.UploadItemDao;
 import com.practice.ormlite.dao.UserDao;
 import com.practice.ormlite.model.Article;
-import com.practice.ormlite.model.UploadAlbumEntity;
-import com.practice.ormlite.model.UploadProductEntity;
+import com.practice.ormlite.model.UploadSetEntity;
+import com.practice.ormlite.model.UploadItemEntity;
 import com.practice.ormlite.model.User;
 import com.practice.util.UploadUtil;
 
@@ -139,32 +139,32 @@ public class ExampleInstrumentedTest {
     public void foreignTest2() throws SQLException {
         Context appContext = InstrumentationRegistry.getTargetContext();
         DatabaseHelper helper = DatabaseHelper.getHelper(appContext);
-        Dao<UploadAlbumEntity, Integer> uploadAlbumEntityDao = UploadAlbumEntityDao.getInstance(helper);
-        Dao<UploadProductEntity, Integer> uploadVideoEntityDao = UploadProductEntityDao.getInstance(helper);
+        Dao<UploadSetEntity, Integer> uploadAlbumEntityDao = UploadSetDao.getInstance(helper);
+        Dao<UploadItemEntity, Integer> uploadVideoEntityDao = UploadItemDao.getInstance(helper);
 
-        UploadAlbumEntity uploadAlbumEntity = new UploadAlbumEntity("专辑一", "发行的第一部专辑，里面包含几个视频", UploadUtil.UPLOAD_STATUS_UPLOADING);
-        uploadAlbumEntityDao.create(uploadAlbumEntity);
-        uploadVideoEntityDao.create(new UploadProductEntity(1000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
-        uploadVideoEntityDao.create(new UploadProductEntity(2000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
-        uploadVideoEntityDao.create(new UploadProductEntity(3000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
-        uploadVideoEntityDao.create(new UploadProductEntity(4000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
-        uploadVideoEntityDao.create(new UploadProductEntity(5000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
-        uploadVideoEntityDao.create(new UploadProductEntity(6000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
+        UploadSetEntity uploadSetEntity = new UploadSetEntity("专辑一", "发行的第一部专辑，里面包含几个视频", UploadUtil.UPLOAD_STATUS_UPLOADING);
+        uploadAlbumEntityDao.create(uploadSetEntity);
+        uploadVideoEntityDao.create(new UploadItemEntity(1000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+        uploadVideoEntityDao.create(new UploadItemEntity(2000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+        uploadVideoEntityDao.create(new UploadItemEntity(3000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+        uploadVideoEntityDao.create(new UploadItemEntity(4000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+        uploadVideoEntityDao.create(new UploadItemEntity(5000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+        uploadVideoEntityDao.create(new UploadItemEntity(6000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
 
-        uploadAlbumEntity = new UploadAlbumEntity("专辑二", "发行的第二部专辑，里面包含几个视频", UploadUtil.UPLOAD_STATUS_UPLOADING);
-        uploadAlbumEntityDao.create(uploadAlbumEntity);
-        uploadVideoEntityDao.create(new UploadProductEntity(1100, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
-        uploadVideoEntityDao.create(new UploadProductEntity(2200, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
-        uploadVideoEntityDao.create(new UploadProductEntity(3300, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
-        uploadVideoEntityDao.create(new UploadProductEntity(4400, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
-        uploadVideoEntityDao.create(new UploadProductEntity(5500, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
-        uploadVideoEntityDao.create(new UploadProductEntity(6600, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadAlbumEntity));
+        uploadSetEntity = new UploadSetEntity("专辑二", "发行的第二部专辑，里面包含几个视频", UploadUtil.UPLOAD_STATUS_UPLOADING);
+        uploadAlbumEntityDao.create(uploadSetEntity);
+        uploadVideoEntityDao.create(new UploadItemEntity(1100, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+        uploadVideoEntityDao.create(new UploadItemEntity(2200, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+        uploadVideoEntityDao.create(new UploadItemEntity(3300, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+        uploadVideoEntityDao.create(new UploadItemEntity(4400, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+        uploadVideoEntityDao.create(new UploadItemEntity(5500, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+        uploadVideoEntityDao.create(new UploadItemEntity(6600, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
 
-        List<UploadAlbumEntity> uploadAlbumEntities = uploadAlbumEntityDao.queryForAll();
-        for (UploadAlbumEntity albumEntity : uploadAlbumEntities) {
+        List<UploadSetEntity> uploadAlbumEntities = uploadAlbumEntityDao.queryForAll();
+        for (UploadSetEntity albumEntity : uploadAlbumEntities) {
             Log.e(TAG, "album entity:" + albumEntity);
-            List<UploadProductEntity> uploadVideoEntities = uploadVideoEntityDao.queryForEq(UploadProductEntity.FOREIGN_COLUMN_NAME, albumEntity);
-            for (UploadProductEntity videoEntity : uploadVideoEntities) {
+            List<UploadItemEntity> uploadVideoEntities = uploadVideoEntityDao.queryForEq(UploadItemEntity.FOREIGN_COLUMN_NAME, albumEntity);
+            for (UploadItemEntity videoEntity : uploadVideoEntities) {
                 Log.e(TAG, "     video entity:" + videoEntity);
             }
         }

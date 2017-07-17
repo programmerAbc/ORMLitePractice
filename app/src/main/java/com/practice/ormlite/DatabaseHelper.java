@@ -9,8 +9,8 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import com.practice.ormlite.model.Article;
-import com.practice.ormlite.model.UploadAlbumEntity;
-import com.practice.ormlite.model.UploadProductEntity;
+import com.practice.ormlite.model.UploadSetEntity;
+import com.practice.ormlite.model.UploadItemEntity;
 import com.practice.ormlite.model.User;
 
 import java.io.File;
@@ -32,8 +32,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.createTableIfNotExists(connectionSource, User.class);
             TableUtils.createTableIfNotExists(connectionSource, Article.class);
-            TableUtils.createTableIfNotExists(connectionSource, UploadAlbumEntity.class);
-            TableUtils.createTableIfNotExists(connectionSource, UploadProductEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, UploadSetEntity.class);
+            TableUtils.createTableIfNotExists(connectionSource, UploadItemEntity.class);
 
         } catch (Exception e) {
             Log.e(TAG, "onCreate: " + Log.getStackTraceString(e));
@@ -45,8 +45,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         try {
             TableUtils.dropTable(connectionSource, User.class, true);
             TableUtils.dropTable(connectionSource, Article.class, true);
-            TableUtils.dropTable(connectionSource, UploadAlbumEntity.class, true);
-            TableUtils.dropTable(connectionSource, UploadProductEntity.class, true);
+            TableUtils.dropTable(connectionSource, UploadSetEntity.class, true);
+            TableUtils.dropTable(connectionSource, UploadItemEntity.class, true);
             onCreate(database, connectionSource);
         } catch (Exception e) {
             Log.e(TAG, "onUpgrade: " + Log.getStackTraceString(e));
