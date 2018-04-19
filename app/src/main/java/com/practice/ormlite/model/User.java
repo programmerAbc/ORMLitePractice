@@ -1,8 +1,6 @@
 package com.practice.ormlite.model;
 
-import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
-import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 /**
@@ -16,6 +14,8 @@ public class User {
     private String name;
     @DatabaseField(columnName = "desc")
     private String desc;
+    @DatabaseField(columnName = "vip")
+    private boolean vip;
 
     public User() {
     }
@@ -28,6 +28,14 @@ public class User {
     public User(String name, String desc) {
         this.name = name;
         this.desc = desc;
+    }
+
+    public boolean isVip() {
+        return vip;
+    }
+
+    public void setVip(boolean vip) {
+        this.vip = vip;
     }
 
     public String getName() {

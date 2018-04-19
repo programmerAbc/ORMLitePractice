@@ -6,16 +6,12 @@ import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.dao.GenericRawResults;
 import com.j256.ormlite.table.TableUtils;
 import com.practice.ormlite.dao.ArticleDao;
-import com.practice.ormlite.dao.UploadSetDao;
-import com.practice.ormlite.dao.UploadItemDao;
 import com.practice.ormlite.dao.UserDao;
 import com.practice.ormlite.model.Article;
-import com.practice.ormlite.model.UploadSetEntity;
-import com.practice.ormlite.model.UploadItemEntity;
 import com.practice.ormlite.model.User;
-import com.practice.util.UploadUtil;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -48,12 +44,17 @@ public class ExampleInstrumentedTest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         DatabaseHelper helper = DatabaseHelper.getHelper(appContext);
         UserDao.getInstance(helper).create(new User("aaa", "普通用户"));
-        UserDao.getInstance(helper).create(new User("bbb", "普通用户"));
-        UserDao.getInstance(helper).create(new User("ccc", "高级用户"));
-        UserDao.getInstance(helper).create(new User("ddd", "高级用户"));
-        UserDao.getInstance(helper).create(new User("eee", "管理员用户"));
-        UserDao.getInstance(helper).create(new User("fff", "管理员用户"));
-        UserDao.getInstance(helper).create(new User("ggg", "普通用户"));
+//        UserDao.getInstance(helper).create(new User("bbb", "普通用户"));
+//        UserDao.getInstance(helper).create(new User("ccc", "高级用户"));
+//        UserDao.getInstance(helper).create(new User("ddd", "高级用户"));
+//        UserDao.getInstance(helper).create(new User("eee", "管理员用户"));
+//        UserDao.getInstance(helper).create(new User("fff", "管理员用户"));
+//        UserDao.getInstance(helper).create(new User("ggg", "普通用户"));
+        GenericRawResults<String[]> oldTableQueryResults= UserDao.getInstance(helper).queryBuilder().queryRaw();
+        String[] results=oldTableQueryResults.getFirstResult();
+        List<String> strings=  TableUtils.getCreateTableStatements(helper.getConnectionSource(),User.class);
+        System.out.printf(strings.toString());
+
         helper.close();
         assertEquals("com.practice.ormlite", appContext.getPackageName());
     }
@@ -137,39 +138,57 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void foreignTest2() throws SQLException {
-        Context appContext = InstrumentationRegistry.getTargetContext();
-        DatabaseHelper helper = DatabaseHelper.getHelper(appContext);
-        Dao<UploadSetEntity, Integer> uploadAlbumEntityDao = UploadSetDao.getInstance(helper);
-        Dao<UploadItemEntity, Integer> uploadVideoEntityDao = UploadItemDao.getInstance(helper);
-
-        UploadSetEntity uploadSetEntity = new UploadSetEntity("专辑一", "发行的第一部专辑，里面包含几个视频", UploadUtil.UPLOAD_STATUS_UPLOADING);
-        uploadAlbumEntityDao.create(uploadSetEntity);
-        uploadVideoEntityDao.create(new UploadItemEntity(1000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-        uploadVideoEntityDao.create(new UploadItemEntity(2000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-        uploadVideoEntityDao.create(new UploadItemEntity(3000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-        uploadVideoEntityDao.create(new UploadItemEntity(4000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-        uploadVideoEntityDao.create(new UploadItemEntity(5000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-        uploadVideoEntityDao.create(new UploadItemEntity(6000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-
-        uploadSetEntity = new UploadSetEntity("专辑二", "发行的第二部专辑，里面包含几个视频", UploadUtil.UPLOAD_STATUS_UPLOADING);
-        uploadAlbumEntityDao.create(uploadSetEntity);
-        uploadVideoEntityDao.create(new UploadItemEntity(1100, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-        uploadVideoEntityDao.create(new UploadItemEntity(2200, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-        uploadVideoEntityDao.create(new UploadItemEntity(3300, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-        uploadVideoEntityDao.create(new UploadItemEntity(4400, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-        uploadVideoEntityDao.create(new UploadItemEntity(5500, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-        uploadVideoEntityDao.create(new UploadItemEntity(6600, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
-
-        List<UploadSetEntity> uploadAlbumEntities = uploadAlbumEntityDao.queryForAll();
-        for (UploadSetEntity albumEntity : uploadAlbumEntities) {
-            Log.e(TAG, "album entity:" + albumEntity);
-            List<UploadItemEntity> uploadVideoEntities = uploadVideoEntityDao.queryForEq(UploadItemEntity.FOREIGN_COLUMN_NAME, albumEntity);
-            for (UploadItemEntity videoEntity : uploadVideoEntities) {
-                Log.e(TAG, "     video entity:" + videoEntity);
-            }
-        }
+//        Context appContext = InstrumentationRegistry.getTargetContext();
+//        DatabaseHelper helper = DatabaseHelper.getHelper(appContext);
+//        Dao<UploadSetEntity, Integer> uploadAlbumEntityDao = UploadSetDao.getInstance(helper);
+//        Dao<UploadItemEntity, Integer> uploadVideoEntityDao = UploadItemDao.getInstance(helper);
+//
+//        UploadSetEntity uploadSetEntity = new UploadSetEntity("专辑一", "发行的第一部专辑，里面包含几个视频", UploadUtil.UPLOAD_STATUS_UPLOADING);
+//        uploadAlbumEntityDao.create(uploadSetEntity);
+//        uploadVideoEntityDao.create(new UploadItemEntity(1000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//        uploadVideoEntityDao.create(new UploadItemEntity(2000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//        uploadVideoEntityDao.create(new UploadItemEntity(3000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//        uploadVideoEntityDao.create(new UploadItemEntity(4000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//        uploadVideoEntityDao.create(new UploadItemEntity(5000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//        uploadVideoEntityDao.create(new UploadItemEntity(6000, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//
+//        uploadSetEntity = new UploadSetEntity("专辑二", "发行的第二部专辑，里面包含几个视频", UploadUtil.UPLOAD_STATUS_UPLOADING);
+//        uploadAlbumEntityDao.create(uploadSetEntity);
+//        uploadVideoEntityDao.create(new UploadItemEntity(1100, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//        uploadVideoEntityDao.create(new UploadItemEntity(2200, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//        uploadVideoEntityDao.create(new UploadItemEntity(3300, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//        uploadVideoEntityDao.create(new UploadItemEntity(4400, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//        uploadVideoEntityDao.create(new UploadItemEntity(5500, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//        uploadVideoEntityDao.create(new UploadItemEntity(6600, 0, 0, UploadUtil.UPLOAD_STATUS_UPLOADING, uploadSetEntity));
+//
+//        List<UploadSetEntity> uploadAlbumEntities = uploadAlbumEntityDao.queryForAll();
+//        for (UploadSetEntity albumEntity : uploadAlbumEntities) {
+//            Log.e(TAG, "album entity:" + albumEntity);
+//            List<UploadItemEntity> uploadVideoEntities = uploadVideoEntityDao.queryForEq(UploadItemEntity.FOREIGN_COLUMN_NAME, albumEntity);
+//            for (UploadItemEntity videoEntity : uploadVideoEntities) {
+//                Log.e(TAG, "     video entity:" + videoEntity);
+//            }
+//        }
     }
 
+    @Test
+    public void storeBooleanTest() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        DatabaseHelper helper = DatabaseHelper.getHelper(appContext);
+        Dao<User, Integer> userDao = UserDao.getInstance(helper);
+        User vipUser = new User();
+        vipUser.setDesc("I AM VIP");
+        vipUser.setName("VIP1");
+        vipUser.setVip(true);
+        userDao.create(vipUser);
+        User normalUser = new User();
+        normalUser.setDesc("I AM NORMAL");
+        normalUser.setName("NORMAL1");
+        normalUser.setVip(false);
+        userDao.create(normalUser);
+        List<User> users = userDao.queryForAll();
+        Log.e(TAG, "storeBooleanTest:" + users);
+    }
 
 
 }
